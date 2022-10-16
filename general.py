@@ -190,6 +190,7 @@ i = 0
 for f in festivals:
     print('Processing '+f['title'])
     if f['url'] == '':
+        i = i + 1
         continue
     raw_list = get_line_up(
         f['url'],
