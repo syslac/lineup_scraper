@@ -99,7 +99,12 @@ festivals = [
     },
     {
         'title': 'Tuska',
-        'url': ''
+        'url': 'https://www.tuska.fi/en/lineup',
+        'filename' : '',
+        'downloader' : 'standard',
+        'selector' : 'li.views-row img',
+        'extractor' : 'attr',
+        'attr' : 'alt',
     },
     {
         'title': 'Brutal Assault',
