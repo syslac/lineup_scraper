@@ -117,11 +117,21 @@ festivals = [
     },
     {
         'title': 'Sweden Rock',
-        'url': ''
+        'url': 'https://www.swedenrock.com/en/festival/artists/sweden-rock-2023',
+        'filename' : '',
+        'downloader' : 'standard',
+        'selector' : 'div#band_container>div>div>div>span>span',
+        'extractor' : 'text',
+        'attr' : '',
     },
     {
         'title': 'Leyendas del Rock',
-        'url': ''
+        'url': '',
+        'filename' : '',
+        'downloader' : '',
+        'selector' : 'figure>img',
+        'extractor' : 'attr',
+        'attr' : 'alt',
     },
     {
         'title': 'Basin Fire Fest',
@@ -129,7 +139,12 @@ festivals = [
     },
     {
         'title': 'Baltic Open Air',
-        'url': ''
+        'url': 'https://www.baltic-open-air.de/en/line-up',
+        'filename' : '',
+        'downloader' : 'standard',
+        'selector' : 'h4.heading',
+        'extractor' : 'text',
+        'attr' : '',
     },
 ]
 
@@ -163,6 +178,7 @@ def normalize_lowercase(name):
     name = re.sub("\s+", "_", name)
     name = re.sub("-+", "_", name)
     name = re.sub("_+", "_", name)
+    name = re.sub("\s+Leyendas del Rock 2023$", "", name)
 
     name = re.sub("_", " ", name)
     return name
