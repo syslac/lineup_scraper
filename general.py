@@ -90,7 +90,12 @@ festivals = [
     },
     {
         'title': 'Novarock',
-        'url': ''
+        'url': 'https://www.novarock.at/lineup/',
+        'filename' : '',
+        'downloader' : 'standard',
+        'selector' : 'h3.item__title',
+        'extractor' : 'text',
+        'attr' : '',
     },
     {
         'title': 'Tuska',
@@ -148,6 +153,8 @@ def get_line_up(url, filename, downloader, selector, extractor, attr):
 def normalize_lowercase(name):
     name = name.lower()
     import re
+    name = re.sub("^\s+", "", name)
+    name = re.sub("\s+$", "", name)
     name = re.sub("\s+", "_", name)
     name = re.sub("-+", "_", name)
     name = re.sub("_+", "_", name)
