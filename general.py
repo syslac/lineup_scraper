@@ -1,5 +1,6 @@
 import cssselect
 import lxml
+import json
 from io import StringIO, BytesIO
 import os
 
@@ -69,7 +70,12 @@ festivals = [
     },
     {
         'title': 'Tons of Rock',
-        'url': ''
+        'url' : 'https://goeventweb-static.greencopper.com/7c0cd8a0b51a4c268a553ef8153aff6e/tonsofrock-2022/data/nor/artists.json',
+        'filename' : 'artists.json',
+        'downloader' : 'fake',
+        'selector' : 'json',
+        'extractor' : 'attr',
+        'attr' : 'title',
     },
     {
         'title': 'Metaldays',
@@ -135,7 +141,12 @@ festivals = [
     },
     {
         'title': 'Basin Fire Fest',
-        'url': ''
+        'url': 'https://basin.cz/cs/line-up',
+        'filename' : 'line-up',
+        'downloader' : 'fake',
+        'selector' : 'strong.band_lineup_title',
+        'extractor' : 'text',
+        'attr' : '',
     },
     {
         'title': 'Baltic Open Air',
@@ -155,17 +166,25 @@ def get_line_up(url, filename, downloader, selector, extractor, attr):
     parser = etree.HTMLParser()
     tree = etree.parse(local_fname, parser)
 
-    try:
-        expression = cssselect.HTMLTranslator().css_to_xpath(selector)
-    except cssselect.SelectorError:
-        print('Invalid selector')
-        os.remove(local_fname)
-        exit()
+    if selector == 'json':
+        f = open(local_fname) or die('Invalid json file')
+        artists_list = json.load(f)
+        return_list = []
+        for k in artists_list:
+            return_list.append(artists_list[k][attr])
+        f.close()
+    else:
+        try:
+            expression = cssselect.HTMLTranslator().css_to_xpath(selector)
+        except cssselect.SelectorError:
+            print('Invalid selector')
+            os.remove(local_fname)
+            exit()
 
-    res = tree.xpath(expression)
-    return_list = []
-    for e in res:
-        return_list.append(extractor(e, attr))
+        res = tree.xpath(expression)
+        return_list = []
+        for e in res:
+            return_list.append(extractor(e, attr))
 
     os.remove(local_fname)
     return return_list
