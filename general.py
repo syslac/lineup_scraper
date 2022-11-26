@@ -92,7 +92,12 @@ festivals = [
     },
     {
         'title': 'Graspop',
-        'url': ''
+        'url': 'https://www.graspop.be/en/line-up/a-z',
+        'filename' : '',
+        'downloader' : 'standard',
+        'selector' : 'h4.artist__name',
+        'extractor' : 'text',
+        'attr' : '',
     },
     {
         'title': 'Novarock',
