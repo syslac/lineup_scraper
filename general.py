@@ -162,6 +162,15 @@ festivals = [
         'extractor' : 'text',
         'attr' : '',
     },
+    {
+        'title': 'Alcatraz Open Air',
+        'url': 'https://www.alcatraz.be/en/line-up/',
+        'filename' : '',
+        'downloader' : 'standard',
+        'selector' : 'h4.card-title',
+        'extractor' : 'text',
+        'attr' : '',
+    },
 ]
 
 def get_line_up(url, filename, downloader, selector, extractor, attr):
