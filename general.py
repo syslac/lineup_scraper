@@ -40,7 +40,12 @@ festivals = [
     },
     {
         'title': 'Masters of Food',
-        'url': ''
+        'url': 'https://www.mastersofrock.cz/cs/kapely/',
+        'filename' : '',
+        'downloader' : 'standard',
+        'selector' : 'div.band-item img',
+        'extractor' : 'attr',
+        'attr' : 'title',
     },
     {
         'title': 'Metalfest Open Air',

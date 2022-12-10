@@ -27,7 +27,7 @@ try:
         try:
             print(band + ';' + ';'.join(prefs_matrix[band]),file = merged_result)
         except KeyError:
-            print(band + ';' + ';'*header.count(), file = merged_result)
+            print(band + ';' + ';'*len(header.split(';')), file = merged_result)
 
 except IOError:
     exit('file not found')
