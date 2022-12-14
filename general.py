@@ -176,6 +176,15 @@ festivals = [
         'extractor' : 'text',
         'attr' : '',
     },
+    {
+        'title': 'RockHarz',
+        'url': 'https://www.rockharz-festival.com/bands',
+        'filename' : '',
+        'downloader' : 'standard',
+        'selector' : 'div.band_item a',
+        'extractor' : 'attr',
+        'attr' : 'title',
+    },
 ]
 
 def get_line_up(url, filename, downloader, selector, extractor, attr):
