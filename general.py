@@ -185,6 +185,15 @@ festivals = [
         'extractor' : 'attr',
         'attr' : 'title',
     },
+    {
+        'title': 'Copenhell',
+        'url': 'https://goeventweb-static.greencopper.com/bb3304db32274d14aa9ea8bb68f346d8/copenhell-2022/data/eng/artists.json',
+        'filename' : 'artists.json',
+        'downloader' : 'fake',
+        'selector' : 'json',
+        'extractor' : 'attr',
+        'attr' : 'title',
+    },
 ]
 
 def get_line_up(url, filename, downloader, selector, extractor, attr):
