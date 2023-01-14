@@ -35,10 +35,6 @@ extractors = {
 
 festivals = [
     {
-        'title': 'Rock Castle Open Air',
-        'url': ''
-    },
-    {
         'title': 'Masters of Food',
         'url': 'https://www.mastersofrock.cz/cs/kapely/',
         'filename' : '',
@@ -66,14 +62,6 @@ festivals = [
         'attr' : '',
     },
     {
-        'title': 'Sabaton Open Air',
-        'url': ''
-    },
-    {
-        'title': 'Hellfest',
-        'url': ''
-    },
-    {
         'title': 'Tons of Rock',
         'url' : 'https://goeventweb-static.greencopper.com/7c0cd8a0b51a4c268a553ef8153aff6e/tonsofrock-2022/data/nor/artists.json',
         'filename' : 'artists.json',
@@ -90,10 +78,6 @@ festivals = [
         'selector' : 'img.gallery-item-visible',
         'extractor' : 'attr',
         'attr' : 'alt',
-    },
-    {
-        'title': 'Barcelona Rock Fest',
-        'url': ''
     },
     {
         'title': 'Graspop',
@@ -249,7 +233,7 @@ def print_bands_with_festivals(matrix):
         print(b + " : " + ','.join([ festivals[i]['title'] for i in matrix[b]]))
 
 def print_csv(matrix):
-    out_file = open('2023.csv', 'w', encoding='utf-8') or die('unable to open output file')
+    out_file = open('presences.csv', 'w', encoding='utf-8') or die('unable to open output file')
     csv_header = ";"
     for f in festivals:
         csv_header = csv_header + f['title'] + ";"
