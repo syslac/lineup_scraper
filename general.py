@@ -3,13 +3,17 @@ import lxml
 import json
 from io import StringIO, BytesIO
 import os
+from pprint import pprint
 
 def null_output(arg1, arg2, arg3):
     return
 
 def standard_wget(url, filename):
     import wget
-    return wget.download(url, None, null_output)
+    try:
+        return wget.download(url, None, null_output)
+    except Exception as e:
+        return null_output
 
 def fake_user_agent(url, filename):
     hUA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0'
@@ -35,8 +39,8 @@ extractors = {
 
 festivals = [
     {
-        'title': 'Masters of Food',
-        'url': 'https://www.mastersofrock.cz/cs/kapely/',
+        'title': 'Masters of Rock',
+        'url': '', #'https://www.mastersofrock.cz/cs/kapely/', ## probably URL is correct, but 2023 version still up
         'filename' : '',
         'downloader' : 'standard',
         'selector' : 'div.band-item img',
@@ -63,7 +67,7 @@ festivals = [
     },
     {
         'title': 'Tons of Rock',
-        'url' : 'https://goeventweb-static.greencopper.com/7c0cd8a0b51a4c268a553ef8153aff6e/tonsofrock-2022/data/nor/artists.json',
+        'url' : '',
         'filename' : 'artists.json',
         'downloader' : 'fake',
         'selector' : 'json',
@@ -72,16 +76,16 @@ festivals = [
     },
     {
         'title': 'Metaldays',
-        'url' : 'https://www.metaldays.net/2022',
+        'url' : 'https://www.metaldays.net/2023',
         'filename' : '',
         'downloader' : 'standard',
-        'selector' : 'img.gallery-item-visible',
-        'extractor' : 'attr',
-        'attr' : 'alt',
+        'selector' : 'div.info-element-title span',
+        'extractor' : 'text',
+        'attr' : '',
     },
     {
         'title': 'Graspop',
-        'url': 'https://www.graspop.be/en/line-up/a-z',
+        'url': '', #'https://www.graspop.be/en/line-up/a-z', ## probably URL is correct, but 2023 version still up
         'filename' : '',
         'downloader' : 'standard',
         'selector' : 'h4.artist__name',
@@ -117,7 +121,7 @@ festivals = [
     },
     {
         'title': 'Sweden Rock',
-        'url': 'https://www.swedenrock.com/en/festival/artists/sweden-rock-2023',
+        'url': '',
         'filename' : '',
         'downloader' : 'standard',
         'selector' : 'div#band_container>div>div>div>span>span',
@@ -135,7 +139,7 @@ festivals = [
     },
     {
         'title': 'Basin Fire Fest',
-        'url': 'https://basin.cz/cs/line-up',
+        'url': '', #'https://basin.cz/cs/line-up', ## probably URL is correct, but 2023 version still up
         'filename' : 'line-up',
         'downloader' : 'fake',
         'selector' : 'strong.band_lineup_title',
@@ -144,7 +148,7 @@ festivals = [
     },
     {
         'title': 'Baltic Open Air',
-        'url': 'https://www.baltic-open-air.de/en/line-up',
+        'url': '', #'https://www.baltic-open-air.de/en/line-up', ## probably URL is correct, but 2023 version still up
         'filename' : '',
         'downloader' : 'standard',
         'selector' : 'h4.heading',
@@ -153,10 +157,10 @@ festivals = [
     },
     {
         'title': 'Alcatraz Open Air',
-        'url': 'https://www.alcatraz.be/en/line-up/',
+        'url': 'https://en.concerts-metal.com/concert_-_Alcatraz_Metal_Festival_2024-148619.html', #temporary, official should be 'https://www.alcatraz.be/en/line-up', but has logos only in an image
         'filename' : '',
         'downloader' : 'standard',
-        'selector' : 'h4.card-title',
+        'selector' : 'table font a',
         'extractor' : 'text',
         'attr' : '',
     },
@@ -171,57 +175,78 @@ festivals = [
     },
     {
         'title': 'Copenhell',
-        'url': 'https://goeventweb-static.greencopper.com/bb3304db32274d14aa9ea8bb68f346d8/copenhell-2022/data/eng/artists.json',
-        'filename' : 'artists.json',
+        'url': 'https://goeventweb-static.greencopper.com/a2f876e83709491a8349f246f8216187/copenhellwebwidget-2023/data/dan/events.json',
+        'filename' : 'events.json',
         'downloader' : 'fake',
         'selector' : 'json',
         'extractor' : 'attr',
         'attr' : 'title',
     },
+    {
+        'title': 'Tolminator',
+        'url': 'https://tolminator.com/lineup/',
+        'filename' : '',
+        'downloader' : 'standard',
+        'selector' : 'a.elementor-gallery-item',
+        'extractor' : 'attr',
+        'attr' : 'data-elementor-lightbox-title',
+    },
 ]
 
 def get_line_up(url, filename, downloader, selector, extractor, attr):
     local_fname = downloader(url, filename)
+    #return
 
     from lxml import etree
     parser = etree.HTMLParser()
-    tree = etree.parse(local_fname, parser)
+    try:
+        tree = etree.parse(local_fname, parser)
 
-    if selector == 'json':
-        f = open(local_fname) or die('Invalid json file')
-        artists_list = json.load(f)
-        return_list = []
-        for k in artists_list:
-            return_list.append(artists_list[k][attr])
-        f.close()
-    else:
-        try:
-            expression = cssselect.HTMLTranslator().css_to_xpath(selector)
-        except cssselect.SelectorError:
-            print('Invalid selector')
-            os.remove(local_fname)
-            exit()
+        if selector == 'json':
+            f = open(local_fname) or die('Invalid json file')
+            try:
+                artists_list = json.load(f)
+                return_list = []
+                for k in artists_list:
+                    return_list.append(artists_list[k][attr])
+            except json.JSONDecodeError as e:
+                print(e.msg)
+            f.close()
+        else:
+            try:
+                expression = cssselect.HTMLTranslator().css_to_xpath(selector)
+            except cssselect.SelectorError:
+                print('Invalid selector')
+                os.remove(local_fname)
+                exit()
 
-        res = tree.xpath(expression)
-        return_list = []
-        for e in res:
-            return_list.append(extractor(e, attr))
+            res = tree.xpath(expression)
+            return_list = []
+            for e in res:
+                return_list.append(extractor(e, attr))
 
-    os.remove(local_fname)
-    return return_list
+        os.remove(local_fname)
+        return return_list
+
+    except Exception as e:
+        return [];
 
 def normalize_lowercase(name):
-    name = name.lower()
-    import re
-    name = re.sub("^\s+", "", name)
-    name = re.sub("\s+$", "", name)
-    name = re.sub("\s+", "_", name)
-    name = re.sub("-+", "_", name)
-    name = re.sub("_+", "_", name)
-    name = re.sub("\s+Leyendas del Rock 2023$", "", name)
+    try:
+        name = name.lower()
+        import re
+        name = re.sub("^\s+", "", name)
+        name = re.sub("\s+$", "", name)
+        name = re.sub("\s+", "_", name)
+        name = re.sub("-+", "_", name)
+        name = re.sub("_+", "_", name)
+        name = re.sub("\s+leyendas del rock 2023$", "", name)
+        name = re.sub("^tolminator2024_", "", name)
 
-    name = re.sub("_", " ", name)
-    return name
+        name = re.sub("_", " ", name)
+        return name
+    except Exception as e:
+        return ""
 
 def print_bands_list(bands_set):
     print(sorted(bands_set))
