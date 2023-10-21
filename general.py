@@ -39,6 +39,15 @@ extractors = {
 
 festivals = [
     {
+        'title': 'Rock Castle Open Air',
+        'url': 'https://www.rockcastle.cz/cs/kapely', 
+        'filename' : '',
+        'downloader' : 'standard',
+        'selector' : 'div.band-logo img',
+        'extractor' : 'attr',
+        'attr' : 'title',
+    },
+    {
         'title': 'Masters of Rock',
         'url': '', #'https://www.mastersofrock.cz/cs/kapely/', ## probably URL is correct, but 2023 version still up
         'filename' : '',
@@ -66,6 +75,24 @@ festivals = [
         'attr' : '',
     },
     {
+        'title': 'Sabaton Open Air',
+        'url' : '', #'https://sabatonopenair.net/running-order-2022/',
+        'filename' : '',
+        'downloader' : 'standard',
+        'selector' : 'a.pp-post-link',
+        'extractor' : 'attr',
+        'attr' : 'title',
+    },
+    {
+        'title': 'Hellfest',
+        'url' : '', 
+        'filename' : '',
+        'downloader' : 'standard',
+        'selector' : '#test_id',
+        'extractor' : 'text',
+        'attr' : '',
+    },
+    {
         'title': 'Tons of Rock',
         'url' : '',
         'filename' : 'artists.json',
@@ -80,6 +107,15 @@ festivals = [
         'filename' : '',
         'downloader' : 'standard',
         'selector' : 'div.info-element-title span',
+        'extractor' : 'text',
+        'attr' : '',
+    },
+    {
+        'title': 'Barcelona Rock Fest',
+        'url' : '', #'https://www.barcelonarockfest.com/bandas',
+        'filename' : '',
+        'downloader' : 'standard',
+        'selector' : '#test_id',
         'extractor' : 'text',
         'attr' : '',
     },
@@ -183,6 +219,24 @@ festivals = [
         'attr' : 'title',
     },
     {
+        'title': 'Resurrection Fest',
+        'url': '', #'https://www.resurrectionfest.es/',
+        'filename' : '',
+        'downloader' : 'standard',
+        'selector' : '#test_id',
+        'extractor' : 'text',
+        'attr' : '',
+    },
+    {
+        'title': 'Rockstadt Open Air',
+        'url': 'https://rockstadtextremefest.ro/', 
+        'filename' : '',
+        'downloader' : 'standard',
+        'selector' : 'section[data-id="5a1407c"] h5.entry-title a',
+        'extractor' : 'text',
+        'attr' : '',
+    },
+    {
         'title': 'Tolminator',
         'url': 'https://tolminator.com/lineup/',
         'filename' : '',
@@ -242,6 +296,7 @@ def normalize_lowercase(name):
         name = re.sub("_+", "_", name)
         name = re.sub("\s+leyendas del rock 2023$", "", name)
         name = re.sub("^tolminator2024_", "", name)
+        name = re.sub("\(.*?\)", "", name)
 
         name = re.sub("_", " ", name)
         return name
