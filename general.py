@@ -3,7 +3,7 @@ import lxml
 import json
 from io import StringIO, BytesIO
 import os
-from pprint import pprint
+import re
 
 def null_output(arg1, arg2, arg3):
     return
@@ -27,6 +27,35 @@ def extract_text(el, param):
 def extract_attr(el, param):
     return el.get(param)
 
+def preprocess_id(data):
+    return [data]
+
+def preprocess_tolmin(data):
+    return [re.sub("^tolminator2024_", "", data, 0, re.IGNORECASE)]
+
+def preprocess_leyendas(data):
+    return [re.sub("\s+leyendas del rock 2023$", "", data, 0, re.IGNORECASE)]
+
+def preprocess_rockstadt(data):
+    return [re.sub("\(.*?\)", "", data)]
+
+def preprocess_metaldays(data):
+    data = re.sub("^\(\'", "", data)
+    data = re.sub("\'\)$", "", data)
+    try:
+        full_json = json.loads(data)
+        artists_list = full_json['appsWarmupData']['14271d6f-ba62-d045-549b-ab972ae1f70e']['comp-kwthmmhs_galleryData']['items']
+        return_list = []
+        for k in artists_list:
+            return_list.append(k['metaData']['title'])
+        return return_list
+
+    except json.JSONDecodeError as e:
+        print(e.msg)
+    except Exception as f:
+        print(f)
+
+
 downloaders = {
     'standard' : standard_wget,
     'fake' : fake_user_agent
@@ -35,6 +64,14 @@ downloaders = {
 extractors = {
     'text' : extract_text,
     'attr' : extract_attr,
+}
+
+preprocessors = {
+    'id' : preprocess_id,
+    'tolmin' : preprocess_tolmin,
+    'leyendas' : preprocess_leyendas,
+    'metaldays' : preprocess_metaldays,
+    'rockstadt' : preprocess_rockstadt,
 }
 
 festivals = [
@@ -46,6 +83,7 @@ festivals = [
         'selector' : 'div.band-logo img',
         'extractor' : 'attr',
         'attr' : 'title',
+        'preprocess' : 'id'
     },
     {
         'title': 'Masters of Rock',
@@ -55,6 +93,7 @@ festivals = [
         'selector' : 'div.band-item img',
         'extractor' : 'attr',
         'attr' : 'title',
+        'preprocess' : 'id'
     },
     {
         'title': 'Metalfest Open Air',
@@ -64,6 +103,7 @@ festivals = [
         'selector' : 'div.band-item img',
         'extractor' : 'attr',
         'attr' : 'title',
+        'preprocess' : 'id'
     },
     {
         'title': 'Summerbreeze',
@@ -73,6 +113,7 @@ festivals = [
         'selector' : 'h3.teaser__title',
         'extractor' : 'text',
         'attr' : '',
+        'preprocess' : 'id'
     },
     {
         'title': 'Sabaton Open Air',
@@ -82,6 +123,7 @@ festivals = [
         'selector' : 'a.pp-post-link',
         'extractor' : 'attr',
         'attr' : 'title',
+        'preprocess' : 'id'
     },
     {
         'title': 'Hellfest',
@@ -91,6 +133,7 @@ festivals = [
         'selector' : '#test_id',
         'extractor' : 'text',
         'attr' : '',
+        'preprocess' : 'id'
     },
     {
         'title': 'Tons of Rock',
@@ -100,15 +143,17 @@ festivals = [
         'selector' : 'json',
         'extractor' : 'attr',
         'attr' : 'title',
+        'preprocess' : 'id'
     },
     {
         'title': 'Metaldays',
         'url' : 'https://www.metaldays.net/2023',
         'filename' : '',
         'downloader' : 'standard',
-        'selector' : 'div.info-element-title span',
+        'selector' : 'script#wix-warmup-data',
         'extractor' : 'text',
         'attr' : '',
+        'preprocess' : 'metaldays'
     },
     {
         'title': 'Barcelona Rock Fest',
@@ -118,6 +163,7 @@ festivals = [
         'selector' : '#test_id',
         'extractor' : 'text',
         'attr' : '',
+        'preprocess' : 'id'
     },
     {
         'title': 'Graspop',
@@ -127,6 +173,7 @@ festivals = [
         'selector' : 'h4.artist__name',
         'extractor' : 'text',
         'attr' : '',
+        'preprocess' : 'id'
     },
     {
         'title': 'Novarock',
@@ -136,6 +183,7 @@ festivals = [
         'selector' : 'h3.item__title',
         'extractor' : 'text',
         'attr' : '',
+        'preprocess' : 'id'
     },
     {
         'title': 'Tuska',
@@ -145,6 +193,7 @@ festivals = [
         'selector' : 'li.views-row img',
         'extractor' : 'attr',
         'attr' : 'alt',
+        'preprocess' : 'id'
     },
     {
         'title': 'Brutal Assault',
@@ -154,6 +203,7 @@ festivals = [
         'selector' : 'strong.band_lineup_title',
         'extractor' : 'text',
         'attr' : '',
+        'preprocess' : 'id'
     },
     {
         'title': 'Sweden Rock',
@@ -163,15 +213,17 @@ festivals = [
         'selector' : 'div#band_container>div>div>div>span>span',
         'extractor' : 'text',
         'attr' : '',
+        'preprocess' : 'id'
     },
     {
         'title': 'Leyendas del Rock',
-        'url': '',
+        'url': 'https://www.dodmagazine.es/festivales/leyendas-del-rock/', #temporary, official should be 'leyendasdelrock.es',
         'filename' : '',
-        'downloader' : '',
-        'selector' : 'figure>img',
-        'extractor' : 'attr',
-        'attr' : 'alt',
+        'downloader' : 'standard',
+        'selector' : 'span#span-612-162860-1 li',
+        'extractor' : 'text',
+        'attr' : '',
+        'preprocess' : 'id'
     },
     {
         'title': 'Basin Fire Fest',
@@ -181,6 +233,7 @@ festivals = [
         'selector' : 'strong.band_lineup_title',
         'extractor' : 'text',
         'attr' : '',
+        'preprocess' : 'id'
     },
     {
         'title': 'Baltic Open Air',
@@ -190,6 +243,7 @@ festivals = [
         'selector' : 'h4.heading',
         'extractor' : 'text',
         'attr' : '',
+        'preprocess' : 'id'
     },
     {
         'title': 'Alcatraz Open Air',
@@ -199,6 +253,7 @@ festivals = [
         'selector' : 'table font a',
         'extractor' : 'text',
         'attr' : '',
+        'preprocess' : 'id'
     },
     {
         'title': 'RockHarz',
@@ -208,6 +263,7 @@ festivals = [
         'selector' : 'div.band_item a',
         'extractor' : 'attr',
         'attr' : 'title',
+        'preprocess' : 'id'
     },
     {
         'title': 'Copenhell',
@@ -217,6 +273,7 @@ festivals = [
         'selector' : 'json',
         'extractor' : 'attr',
         'attr' : 'title',
+        'preprocess' : 'id'
     },
     {
         'title': 'Resurrection Fest',
@@ -226,6 +283,7 @@ festivals = [
         'selector' : '#test_id',
         'extractor' : 'text',
         'attr' : '',
+        'preprocess' : 'id'
     },
     {
         'title': 'Rockstadt Open Air',
@@ -235,6 +293,7 @@ festivals = [
         'selector' : 'section[data-id="5a1407c"] h5.entry-title a',
         'extractor' : 'text',
         'attr' : '',
+        'preprocess' : 'rockstadt'
     },
     {
         'title': 'Tolminator',
@@ -244,10 +303,11 @@ festivals = [
         'selector' : 'a.elementor-gallery-item',
         'extractor' : 'attr',
         'attr' : 'data-elementor-lightbox-title',
+        'preprocess' : 'tolmin'
     },
 ]
 
-def get_line_up(url, filename, downloader, selector, extractor, attr):
+def get_line_up(url, filename, downloader, selector, extractor, attr, preprocessor):
     local_fname = downloader(url, filename)
     #return
 
@@ -277,7 +337,7 @@ def get_line_up(url, filename, downloader, selector, extractor, attr):
             res = tree.xpath(expression)
             return_list = []
             for e in res:
-                return_list.append(extractor(e, attr))
+                return_list.extend(preprocessor(extractor(e, attr)))
 
         os.remove(local_fname)
         return return_list
@@ -294,9 +354,6 @@ def normalize_lowercase(name):
         name = re.sub("\s+", "_", name)
         name = re.sub("-+", "_", name)
         name = re.sub("_+", "_", name)
-        name = re.sub("\s+leyendas del rock 2023$", "", name)
-        name = re.sub("^tolminator2024_", "", name)
-        name = re.sub("\(.*?\)", "", name)
 
         name = re.sub("_", " ", name)
         return name
@@ -346,7 +403,8 @@ for f in festivals:
         downloaders[f['downloader']],
         f['selector'],
         extractors[f['extractor']],
-        f['attr'])
+        f['attr'],
+        preprocessors[f['preprocess']])
     new_set = set([normalize_lowercase(b) for b in raw_list])
     for b in new_set:
         if b in presence_matrix:
