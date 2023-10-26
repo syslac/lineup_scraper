@@ -127,18 +127,18 @@ festivals = [
     },
     {
         'title': 'Hellfest',
-        'url' : '', 
+        'url' : 'https://en.concerts-metal.com/concert_-_Hellfest_2024-144699.html', 
         'filename' : '',
         'downloader' : 'standard',
-        'selector' : '#test_id',
+        'selector' : 'table font a',
         'extractor' : 'text',
         'attr' : '',
         'preprocess' : 'id'
     },
     {
         'title': 'Tons of Rock',
-        'url' : '',
-        'filename' : 'artists.json',
+        'url' : 'https://goeventweb-static.greencopper.com/2617ccea62e34209b95dc7bf8a0294f3/tonsofrockwebwidget-2024/data/eng/events.json',
+        'filename' : 'events.json',
         'downloader' : 'fake',
         'selector' : 'json',
         'extractor' : 'attr',
@@ -207,7 +207,7 @@ festivals = [
     },
     {
         'title': 'Sweden Rock',
-        'url': '',
+        'url': 'https://www.swedenrock.com/en/festival/artists/artists2024',
         'filename' : '',
         'downloader' : 'standard',
         'selector' : 'div#band_container>div>div>div>span>span',
@@ -237,7 +237,7 @@ festivals = [
     },
     {
         'title': 'Baltic Open Air',
-        'url': '', #'https://www.baltic-open-air.de/en/line-up', ## probably URL is correct, but 2023 version still up
+        'url': 'https://www.baltic-open-air.de/en/line-up/', 
         'filename' : '',
         'downloader' : 'standard',
         'selector' : 'h4.heading',
@@ -304,6 +304,16 @@ festivals = [
         'extractor' : 'attr',
         'attr' : 'data-elementor-lightbox-title',
         'preprocess' : 'tolmin'
+    },
+    {
+        'title': 'Wolfszeit',
+        'url': '', #'https://www.wolfszeit-festival.de/bands'
+        'filename' : '',
+        'downloader' : 'standard',
+        'selector' : 'div.info-element-title span',
+        'extractor' : 'text',
+        'attr' : '',
+        'preprocess' : 'id'
     },
 ]
 
