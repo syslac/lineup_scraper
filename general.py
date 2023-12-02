@@ -87,7 +87,7 @@ festivals = [
     },
     {
         'title': 'Masters of Rock',
-        'url': '', #'https://www.mastersofrock.cz/cs/kapely/', ## probably URL is correct, but 2023 version still up
+        'url': 'https://www.mastersofrock.cz/cs/kapely/', 
         'filename' : '',
         'downloader' : 'standard',
         'selector' : 'div.band-item img',
@@ -167,7 +167,7 @@ festivals = [
     },
     {
         'title': 'Graspop',
-        'url': '', #'https://www.graspop.be/en/line-up/a-z', ## probably URL is correct, but 2023 version still up
+        'url': 'https://www.graspop.be/en/line-up/a-z', 
         'filename' : '',
         'downloader' : 'standard',
         'selector' : 'h4.artist__name',
@@ -227,7 +227,7 @@ festivals = [
     },
     {
         'title': 'Basin Fire Fest',
-        'url': '', #'https://basin.cz/cs/line-up', ## probably URL is correct, but 2023 version still up
+        'url': 'https://basin.cz/cs/line-up', 
         'filename' : 'line-up',
         'downloader' : 'fake',
         'selector' : 'strong.band_lineup_title',
