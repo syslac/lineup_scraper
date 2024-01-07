@@ -157,10 +157,10 @@ festivals = [
     },
     {
         'title': 'Barcelona Rock Fest',
-        'url' : '', #'https://www.barcelonarockfest.com/bandas',
+        'url' : 'https://en.concerts-metal.com/concert_-_Rock_Fest_Barcelona_2024-158288.html', #'https://www.barcelonarockfest.com/bandas',
         'filename' : '',
         'downloader' : 'standard',
-        'selector' : '#test_id',
+        'selector' : 'table font a',
         'extractor' : 'text',
         'attr' : '',
         'preprocess' : 'id'
@@ -277,10 +277,10 @@ festivals = [
     },
     {
         'title': 'Resurrection Fest',
-        'url': '', #'https://www.resurrectionfest.es/',
+        'url': 'https://en.concerts-metal.com/concert_-_Resurrection_Fest_2024-144831.html', #'https://www.resurrectionfest.es/',
         'filename' : '',
         'downloader' : 'standard',
-        'selector' : '#test_id',
+        'selector' : 'table font a',
         'extractor' : 'text',
         'attr' : '',
         'preprocess' : 'id'
@@ -307,7 +307,7 @@ festivals = [
     },
     {
         'title': 'Wolfszeit',
-        'url': '', #'https://www.wolfszeit-festival.de/bands'
+        'url': 'https://www.wolfszeit-festival.de/bands',
         'filename' : '',
         'downloader' : 'standard',
         'selector' : 'div.info-element-title span',
