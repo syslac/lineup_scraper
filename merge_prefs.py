@@ -23,11 +23,15 @@ try:
     merged_result = open('merged_preferences.csv', 'w')
     header = header.strip()
     print(header, file = merged_result)
+    i = 0
     for band in final_band_list:
+        if i == 0:
+            i += 1
+            continue
         try:
             print(band + ';' + ';'.join(prefs_matrix[band]),file = merged_result)
         except KeyError:
-            print(band + ';' + ';'*len(header.split(';')), file = merged_result)
+            print(band + ';'*(len(header.split(';')) - 1), file = merged_result)
 
 except IOError:
     exit('file not found')
