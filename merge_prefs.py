@@ -2,7 +2,7 @@ from io import StringIO, BytesIO
 import os
 
 try:
-    prefs = open('preferences.csv', 'r', encoding='latin1')
+    prefs = open('preferences.csv', 'r', encoding='utf-8')
     pres = open('presences.csv', 'r')
 
     prefs_matrix = {}

@@ -50,7 +50,12 @@ def main():
   try:
     service = build("sheets", "v4", credentials=creds)
 
-    cell_range = "Presenze!A1:"+str(chr(ord('@')+max_cols))+str(len(cell_values)+1)
+    final_letter = 'A'
+    if max_cols <= 26:
+        final_letter = str(chr(ord('@')+max_cols))
+    else:
+        final_letter = 'A'+str(chr(ord('@')+(max_cols - 26)))
+    cell_range = "Presenze!A1:"+final_letter+str(len(cell_values)+1)
     # Call the Sheets API
     rValues = {"values": cell_values }
     sheet = service.spreadsheets()

@@ -21,6 +21,11 @@ def fake_user_agent(url, filename):
     os.system(command)
     return filename
 
+def no_cert(url, filename):
+    command = 'wget --no-check-certificate '+url+' >/dev/null 2>&1'
+    os.system(command)
+    return filename
+
 def extract_text(el, param):
     return el.text
 
@@ -58,7 +63,8 @@ def preprocess_metaldays(data):
 
 downloaders = {
     'standard' : standard_wget,
-    'fake' : fake_user_agent
+    'fake' : fake_user_agent,
+    'no_cert' : no_cert
 }
 
 extractors = {
@@ -311,6 +317,16 @@ festivals = [
         'filename' : '',
         'downloader' : 'standard',
         'selector' : 'div.info-element-title span',
+        'extractor' : 'text',
+        'attr' : '',
+        'preprocess' : 'id'
+    },
+    {
+        'title': 'Dong Open Air',
+        'url': 'https://www.dongopenair.de/en/bands/index',
+        'filename' : 'index',
+        'downloader' : 'no_cert',
+        'selector' : 'div.bandteaser a',
         'extractor' : 'text',
         'attr' : '',
         'preprocess' : 'id'
