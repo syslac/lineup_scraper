@@ -306,10 +306,10 @@ festivals = [
         'url': 'https://tolminator.com/lineup/',
         'filename' : '',
         'downloader' : 'standard',
-        'selector' : 'a.elementor-gallery-item',
-        'extractor' : 'attr',
-        'attr' : 'data-elementor-lightbox-title',
-        'preprocess' : 'tolmin'
+        'selector' : 'h3.elementor-heading-title',
+        'extractor' : 'text',
+        'attr' : '',
+        'preprocess' : 'id'
     },
     {
         'title': 'Wolfszeit',

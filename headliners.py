@@ -14,8 +14,8 @@ def sum_convert (a, b):
     return aa + bb
 
 try:
-    prefs = open('merged_preferences.csv', 'r')
-    pres = open('presences.csv', 'r')
+    prefs = open('merged_preferences.csv', 'r', encoding='utf-8')
+    pres = open('presences.csv', 'r', encoding='utf-8')
 
     prefs_matrix = {}
     header = prefs.readline()
@@ -45,7 +45,7 @@ try:
        festival_band_list[fest] = sorted(band_list, key=lambda x: x[1])
        festival_band_list[fest].reverse()
 
-    merged_result = open('fest_lineup.csv', 'w')
+    merged_result = open('fest_lineup.csv', 'w', encoding='utf-8')
     header = ";".join(festival_band_list.keys())
     print(header, file = merged_result)
     can_continue = True
