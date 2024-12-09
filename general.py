@@ -16,7 +16,7 @@ def standard_wget(url, filename):
         return null_output
 
 def fake_user_agent(url, filename):
-    hUA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0'
+    hUA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:133.0) Gecko/20100101 Firefox/133.0'
     command = 'wget -U \''+hUA+'\' '+url+' >/dev/null 2>&1'
     os.system(command)
     return filename
@@ -36,17 +36,17 @@ def preprocess_id(data):
     return [data]
 
 def preprocess_tolmin(data):
-    return [re.sub("^tolminator2024_", "", data, 0, re.IGNORECASE)]
+    return [re.sub(r'^tolminator2024_', "", data, 0, re.IGNORECASE)]
 
 def preprocess_leyendas(data):
-    return [re.sub("\s+leyendas del rock 2023$", "", data, 0, re.IGNORECASE)]
+    return [re.sub(r'\s+leyendas del rock 2023$', "", data, 0, re.IGNORECASE)]
 
 def preprocess_rockstadt(data):
-    return [re.sub("\(.*?\)", "", data)]
+    return [re.sub(r'\(.*?\)', "", data)]
 
 def preprocess_metaldays(data):
-    data = re.sub("^\(\'", "", data)
-    data = re.sub("\'\)$", "", data)
+    data = re.sub(r'^\(\'', "", data)
+    data = re.sub(r'\'\)$', "", data)
     try:
         full_json = json.loads(data)
         artists_list = full_json['appsWarmupData']['14271d6f-ba62-d045-549b-ab972ae1f70e']['comp-kwthmmhs_galleryData']['items']
@@ -93,12 +93,12 @@ festivals = [
     },
     {
         'title': 'Masters of Rock',
-        'url': 'https://www.mastersofrock.cz/cs/kapely/', 
-        'filename' : '',
-        'downloader' : 'standard',
-        'selector' : 'div.band-item img',
-        'extractor' : 'attr',
-        'attr' : 'title',
+        'url': 'https://en.concerts-metal.com/concert_-_Masters_of_Rock_2025-187897.html', 
+        'filename' : 'concert_-_Masters_of_Rock_2025-187897.html',
+        'downloader' : 'fake',
+        'selector' : 'table font a', #'div.band-item img',
+        'extractor' : 'text',
+        'attr' : '',
         'preprocess' : 'id'
     },
     {
@@ -106,14 +106,14 @@ festivals = [
         'url' : 'https://www.metalfest.cz/cs/kapely',
         'filename' : '',
         'downloader' : 'standard',
-        'selector' : 'div.band-item img',
+        'selector' : 'div.band-logo img',
         'extractor' : 'attr',
         'attr' : 'title',
         'preprocess' : 'id'
     },
     {
         'title': 'Summerbreeze',
-        'url' : 'https://www.summer-breeze.de/de/bands',
+        'url' : 'https://www.summer-breeze.de/de/bands/',
         'filename' : '',
         'downloader' : 'standard',
         'selector' : 'h3.teaser__title',
@@ -133,9 +133,9 @@ festivals = [
     },
     {
         'title': 'Hellfest',
-        'url' : 'https://en.concerts-metal.com/concert_-_Hellfest_2024-144699.html', 
-        'filename' : '',
-        'downloader' : 'standard',
+        'url' : 'https://en.concerts-metal.com/concert_-_Hellfest_2025-176515.html', 
+        'filename' : 'concert_-_Hellfest_2025-176515.html',
+        'downloader' : 'fake',
         'selector' : 'table font a',
         'extractor' : 'text',
         'attr' : '',
@@ -153,7 +153,7 @@ festivals = [
     },
     {
         'title': 'Metaldays',
-        'url' : 'https://www.metaldays.net/2023',
+        'url' : '',#'https://www.metaldays.net/2023',
         'filename' : '',
         'downloader' : 'standard',
         'selector' : 'script#wix-warmup-data',
@@ -163,10 +163,10 @@ festivals = [
     },
     {
         'title': 'Barcelona Rock Fest',
-        'url' : 'https://en.concerts-metal.com/concert_-_Rock_Fest_Barcelona_2024-158288.html', #'https://www.barcelonarockfest.com/bandas',
-        'filename' : '',
-        'downloader' : 'standard',
-        'selector' : 'table font a',
+        'url' : 'https://en.concerts-metal.com/concert_-_Rock_Fest_Barcelona_2025-177976-Lineup.html', #'https://www.barcelonarockfest.com/bandas',
+        'filename' : 'concert_-_Rock_Fest_Barcelona_2025-177976-Lineup.html',
+        'downloader' : 'fake',
+        'selector' : 'div.row div.align-self-top h2 a',
         'extractor' : 'text',
         'attr' : '',
         'preprocess' : 'id'
@@ -193,17 +193,17 @@ festivals = [
     },
     {
         'title': 'Tuska',
-        'url': 'https://www.tuska.fi/en/lineup',
+        'url': 'https://www.tuska.fi/en/program/lineup',
         'filename' : '',
         'downloader' : 'standard',
-        'selector' : 'li.views-row img',
-        'extractor' : 'attr',
-        'attr' : 'alt',
+        'selector' : 'h2.card-title a',
+        'extractor' : 'text',
+        'attr' : '',
         'preprocess' : 'id'
     },
     {
         'title': 'Brutal Assault',
-        'url' : 'https://brutalassault.cz/cs/line-up',
+        'url' : 'https://brutalassault.cz/en/line-up',
         'filename' : 'line-up',
         'downloader' : 'fake',
         'selector' : 'strong.band_lineup_title',
@@ -213,7 +213,7 @@ festivals = [
     },
     {
         'title': 'Sweden Rock',
-        'url': 'https://www.swedenrock.com/en/festival/artists/artists2024',
+        'url': 'https://www.swedenrock.com/en/festival/line-up/line-up2025',
         'filename' : '',
         'downloader' : 'standard',
         'selector' : 'div#band_container>div>div>div>span>span',
@@ -223,10 +223,10 @@ festivals = [
     },
     {
         'title': 'Leyendas del Rock',
-        'url': 'https://www.dodmagazine.es/festivales/leyendas-del-rock/', #temporary, official should be 'leyendasdelrock.es',
-        'filename' : '',
-        'downloader' : 'standard',
-        'selector' : 'span#span-612-162860-1 li',
+        'url': 'https://en.concerts-metal.com/concert_-_Leyendas_Del_Rock_2025-180135-Lineup-p2.html', #temporary, official should be 'leyendasdelrock.es',
+        'filename' : 'concert_-_Leyendas_Del_Rock_2025-180135-Lineup-p2.html',
+        'downloader' : 'fake',
+        'selector' : 'div.row div.align-self-top h2 a',
         'extractor' : 'text',
         'attr' : '',
         'preprocess' : 'id'
@@ -243,7 +243,7 @@ festivals = [
     },
     {
         'title': 'Baltic Open Air',
-        'url': 'https://www.baltic-open-air.de/en/line-up/', 
+        'url': '',#'https://www.baltic-open-air.de/en/line-up/', 
         'filename' : '',
         'downloader' : 'standard',
         'selector' : 'h4.heading',
@@ -253,10 +253,10 @@ festivals = [
     },
     {
         'title': 'Alcatraz Open Air',
-        'url': 'https://en.concerts-metal.com/concert_-_Alcatraz_Metal_Festival_2024-148619.html', #temporary, official should be 'https://www.alcatraz.be/en/line-up', but has logos only in an image
+        'url': 'https://www.alcatraz.be/en/line-up', #temporary, official should be 'https://www.alcatraz.be/en/line-up', but has logos only in an image
         'filename' : '',
         'downloader' : 'standard',
-        'selector' : 'table font a',
+        'selector' : 'h4.card-title',
         'extractor' : 'text',
         'attr' : '',
         'preprocess' : 'id'
@@ -273,19 +273,19 @@ festivals = [
     },
     {
         'title': 'Copenhell',
-        'url': 'https://goeventweb-static.greencopper.com/a2f876e83709491a8349f246f8216187/copenhellwebwidget-2023/data/dan/events.json',
-        'filename' : 'events.json',
-        'downloader' : 'fake',
-        'selector' : 'json',
+        'url': 'https://www.copenhell.dk/program', #'https://goeventweb-static.greencopper.com/a2f876e83709491a8349f246f8216187/copenhellwebwidget-2023/data/dan/events.json',
+        'filename' : '',
+        'downloader' : 'standard',
+        'selector' : 'div.appm-content-item',
         'extractor' : 'attr',
-        'attr' : 'title',
+        'attr' : 'data-name',
         'preprocess' : 'id'
     },
     {
         'title': 'Resurrection Fest',
-        'url': 'https://en.concerts-metal.com/concert_-_Resurrection_Fest_2024-144831.html', #'https://www.resurrectionfest.es/',
-        'filename' : '',
-        'downloader' : 'standard',
+        'url': 'https://en.concerts-metal.com/concert_-_Resurrection_Fest_2025-176863.html', #'https://www.resurrectionfest.es/',
+        'filename' : 'https://en.concerts-metal.com/concert_-_Resurrection_Fest_2025-176863.html',
+        'downloader' : 'fake',
         'selector' : 'table font a',
         'extractor' : 'text',
         'attr' : '',
@@ -296,7 +296,7 @@ festivals = [
         'url': 'https://rockstadtextremefest.ro/', 
         'filename' : '',
         'downloader' : 'standard',
-        'selector' : 'section[data-id="5a1407c"] h5.entry-title a',
+        'selector' : 'section[data-id="3e3f745"] h5.entry-title a',
         'extractor' : 'text',
         'attr' : '',
         'preprocess' : 'rockstadt'
@@ -323,10 +323,10 @@ festivals = [
     },
     {
         'title': 'Dong Open Air',
-        'url': 'https://www.dongopenair.de/en/bands/index',
+        'url': 'https://www.dongopenair.de/bands',
         'filename' : 'index',
         'downloader' : 'no_cert',
-        'selector' : 'div.bandteaser a',
+        'selector' : 'div.wp-block-group>div>a:nth-child(2)',
         'extractor' : 'text',
         'attr' : '',
         'preprocess' : 'id'
@@ -375,13 +375,13 @@ def normalize_lowercase(name):
     try:
         name = name.lower()
         import re
-        name = re.sub("^\s+", "", name)
-        name = re.sub("\s+$", "", name)
-        name = re.sub("\s+", "_", name)
-        name = re.sub("-+", "_", name)
-        name = re.sub("_+", "_", name)
+        name = re.sub(r'^\s+', "", name)
+        name = re.sub(r'\s+$', "", name)
+        name = re.sub(r'\s+', "_", name)
+        name = re.sub(r'-+', "_", name)
+        name = re.sub(r'_+', "_", name)
 
-        name = re.sub("_", " ", name)
+        name = re.sub(r'_', " ", name)
         return name
     except Exception as e:
         return ""
