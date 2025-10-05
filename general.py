@@ -93,12 +93,12 @@ festivals = [
     },
     {
         'title': 'Masters of Rock',
-        'url': 'https://en.concerts-metal.com/concert_-_Masters_of_Rock_2025-187897.html', 
-        'filename' : 'concert_-_Masters_of_Rock_2025-187897.html',
-        'downloader' : 'fake',
-        'selector' : 'table font a', #'div.band-item img',
-        'extractor' : 'text',
-        'attr' : '',
+        'url': 'https://www.mastersofrock.cz/en/kapely/', 
+        'filename' : '',
+        'downloader' : 'standard',
+        'selector' : 'div.band-item a img', #'div.band-item img',
+        'extractor' : 'attr',
+        'attr' : 'title',
         'preprocess' : 'id'
     },
     {
@@ -133,7 +133,7 @@ festivals = [
     },
     {
         'title': 'Hellfest',
-        'url' : 'https://en.concerts-metal.com/concert_-_Hellfest_2025-176515.html', 
+        'url' : '', #'https://en.concerts-metal.com/concert_-_Hellfest_2025-176515.html', 
         'filename' : 'concert_-_Hellfest_2025-176515.html',
         'downloader' : 'fake',
         'selector' : 'table font a',
@@ -163,7 +163,7 @@ festivals = [
     },
     {
         'title': 'Barcelona Rock Fest',
-        'url' : 'https://en.concerts-metal.com/concert_-_Rock_Fest_Barcelona_2025-177976-Lineup.html', #'https://www.barcelonarockfest.com/bandas',
+        'url' : '', #'https://www.barcelonarockfest.com/bandas',
         'filename' : 'concert_-_Rock_Fest_Barcelona_2025-177976-Lineup.html',
         'downloader' : 'fake',
         'selector' : 'div.row div.align-self-top h2 a',
@@ -173,7 +173,7 @@ festivals = [
     },
     {
         'title': 'Graspop',
-        'url': 'https://www.graspop.be/en/line-up/a-z', 
+        'url': '', #'https://www.graspop.be/en/line-up/a-z', 
         'filename' : '',
         'downloader' : 'standard',
         'selector' : 'h4.artist__name',
@@ -213,7 +213,7 @@ festivals = [
     },
     {
         'title': 'Sweden Rock',
-        'url': 'https://www.swedenrock.com/en/festival/line-up/line-up2025',
+        'url': '', #'https://www.swedenrock.com/en/festival/line-up/line-up2025',
         'filename' : '',
         'downloader' : 'standard',
         'selector' : 'div#band_container>div>div>div>span>span',
@@ -223,10 +223,10 @@ festivals = [
     },
     {
         'title': 'Leyendas del Rock',
-        'url': 'https://en.concerts-metal.com/concert_-_Leyendas_Del_Rock_2025-180135-Lineup-p2.html', #temporary, official should be 'leyendasdelrock.es',
-        'filename' : 'concert_-_Leyendas_Del_Rock_2025-180135-Lineup-p2.html',
+        'url': 'https://en.concerts-metal.com/concert_-_Leyendas_Del_Rock_2026-221012.html', #temporary, official should be 'leyendasdelrock.es',
+        'filename' : 'concert_-_Leyendas_Del_Rock_2026-221012.html',
         'downloader' : 'fake',
-        'selector' : 'div.row div.align-self-top h2 a',
+        'selector' : 'table.table font a',
         'extractor' : 'text',
         'attr' : '',
         'preprocess' : 'id'
@@ -243,7 +243,7 @@ festivals = [
     },
     {
         'title': 'Baltic Open Air',
-        'url': '',#'https://www.baltic-open-air.de/en/line-up/', 
+        'url': 'https://www.baltic-open-air.de/en/line-up/', 
         'filename' : '',
         'downloader' : 'standard',
         'selector' : 'h4.heading',
@@ -276,17 +276,17 @@ festivals = [
         'url': 'https://www.copenhell.dk/program', #'https://goeventweb-static.greencopper.com/a2f876e83709491a8349f246f8216187/copenhellwebwidget-2023/data/dan/events.json',
         'filename' : '',
         'downloader' : 'standard',
-        'selector' : 'div.appm-content-item',
-        'extractor' : 'attr',
-        'attr' : 'data-name',
+        'selector' : 'h3.font-display',
+        'extractor' : 'text',
+        'attr' : '',
         'preprocess' : 'id'
     },
     {
         'title': 'Resurrection Fest',
-        'url': 'https://en.concerts-metal.com/concert_-_Resurrection_Fest_2025-176863.html', #'https://www.resurrectionfest.es/',
-        'filename' : 'https://en.concerts-metal.com/concert_-_Resurrection_Fest_2025-176863.html',
+        'url': 'https://en.concerts-metal.com/concert_-_Resurrection_Fest_2026-218708.html', #'https://www.resurrectionfest.es/',
+        'filename' : 'concert_-_Resurrection_Fest_2026-218708.html',
         'downloader' : 'fake',
-        'selector' : 'table font a',
+        'selector' : 'table.table font a',
         'extractor' : 'text',
         'attr' : '',
         'preprocess' : 'id'
@@ -303,7 +303,7 @@ festivals = [
     },
     {
         'title': 'Tolminator',
-        'url': 'https://tolminator.com/lineup/',
+        'url': '',#'https://tolminator.com/lineup/',
         'filename' : '',
         'downloader' : 'standard',
         'selector' : 'h3.elementor-heading-title',
@@ -313,7 +313,7 @@ festivals = [
     },
     {
         'title': 'Wolfszeit',
-        'url': 'https://www.wolfszeit-festival.de/bands',
+        'url': '',#'https://www.wolfszeit-festival.de/bands',
         'filename' : '',
         'downloader' : 'standard',
         'selector' : 'div.info-element-title span',
@@ -323,7 +323,7 @@ festivals = [
     },
     {
         'title': 'Dong Open Air',
-        'url': 'https://www.dongopenair.de/bands',
+        'url': '',#'https://www.dongopenair.de/bands',
         'filename' : 'index',
         'downloader' : 'no_cert',
         'selector' : 'div.wp-block-group>div>a:nth-child(2)',
